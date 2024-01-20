@@ -1,6 +1,5 @@
 .carousel {
     /* height: 300px; */
-    min-width: 500px;
     height: 300px;
     padding-top: 10000;
     margin-top: -10000;
@@ -9,6 +8,7 @@
 .leftBlur {
     position: absolute;
     z-index: 2;
+    left: 6px;
     height: 100%;
     width: 100px;
     background: linear-gradient(to left, transparent, #00000036);
@@ -17,7 +17,7 @@
 
 .rightBlur {
     position: absolute;
-    right: 0;
+    right: 6px;
     z-index: 2;
     height: 100%;
     width: 100px;
