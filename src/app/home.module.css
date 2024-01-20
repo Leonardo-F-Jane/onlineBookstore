@@ -1,0 +1,77 @@
+.carousel {
+    /* height: 300px; */
+    min-width: 500px;
+    height: 300px;
+    padding-top: 10000;
+    margin-top: -10000;
+}
+
+.leftBlur {
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    width: 100px;
+    background: linear-gradient(to left, transparent, #00000036);
+
+}
+
+.rightBlur {
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    height: 100%;
+    width: 100px;
+    background: linear-gradient(to right, transparent, #00000036);
+}
+
+
+.left,
+.left:hover,
+.left:focus {
+    position: absolute;
+    font-size: 45px;
+    left: 10px;
+    bottom: calc(50% - 22.5px);
+    z-index: 3;
+    color: white;
+    opacity: 0.6;
+}
+
+.right,
+.right:hover,
+.right:focus {
+    position: absolute;
+    font-size: 45px;
+    right: 10px;
+    bottom: calc(50% - 22.5px);
+    z-index: 3;
+    color: white;
+    opacity: 0.6;
+}
+
+.randomCard {
+    width: calc(50% - 12.5px);
+    margin-bottom: 25px;
+    margin-right: 25px;
+}
+
+.randomCard:nth-child(2n) {
+    margin-right: 0px;
+}
+
+.randomCard:nth-child(n+2) {
+    margin-bottom: 0px;
+}
+
+.randomImg {
+    display: block;
+    width: 273
+}
+
+.changePicture {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    display: flex;
+    margin: 3px;
+    font-size: 12px;
+}
