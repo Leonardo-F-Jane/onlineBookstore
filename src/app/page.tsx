@@ -8,7 +8,7 @@ import { category } from '@/common/category'
 import { recommend, randbooks } from '@/common/recommend'
 import home from './home.module.css'
 import { LeftOutlined, RightOutlined, RedoOutlined } from '@ant-design/icons'
-import { Dispatch, SetStateAction, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, memo, useRef, useState } from 'react'
 import { CarouselRef } from 'antd/es/carousel'
 import Meta from 'antd/es/card/Meta'
 
@@ -117,7 +117,7 @@ const getFourCards = function <T>(books: T[]) {
   return result
 }
 
-const BookList = () => {
+const BookList = memo(() => {
   let booklist: {
     name: string,
     url: string
@@ -128,17 +128,18 @@ const BookList = () => {
       booklist = [...booklist, ...b.books]
     )
   )
-  booklist = getFourCards([...booklist])
+  const [bookshelf, setBookshelf] = useState(getFourCards([...booklist]))
   return <div>
     {category.map((c, id) =>
       <div key={id}>
+        <div className={home.title}>{c.name}</div>
         <Row gutter={12}>
-          <Col span={1}></Col>
-          <Col span={22}>
+          <Col span={2}></Col>
+          <Col span={20}>
             <Row gutter={12}>
               {
-                booklist.map((sc, id) =>
-                  <Col key={id} span={6}>
+                bookshelf.map((sc, id) =>
+                  <Col key={id} span={6} style={{padding: '30px'}}>
                     <Card
                       hoverable
                       cover={<img alt={sc.name} src={sc.url} />}
@@ -149,11 +150,15 @@ const BookList = () => {
                 )}
             </Row>
           </Col>
-          <Col span={1}></Col>
+          <Col span={2}></Col>
         </Row>
       </div>
     )}
   </div>
+})
+
+const News = ()=>{
+return <div></div>
 }
 
 export default function Home() {
@@ -185,7 +190,8 @@ export default function Home() {
         <ChangePicture setPictures={setPictures} />
       </Col>
     </Row>
-
+    <Divider style={{padding: '20px'}}>我是分隔线</Divider>
     <BookList />
+    <News/>
   </div>
 }
