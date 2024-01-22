@@ -1,16 +1,52 @@
 'use client'
 
-import { Button, Popover, Divider, Space, Carousel, Card, Flex, Typography, Row, Col } from 'antd'
+import { Button, Popover, Divider, Space, Carousel, Card, Flex, Typography, Row, Col, List, Avatar } from 'antd'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { category } from '@/common/category'
 import { recommend, randbooks } from '@/common/recommend'
+import { newslist } from '@/common/newslist'
 import home from './home.module.css'
-import { LeftOutlined, RightOutlined, RedoOutlined } from '@ant-design/icons'
-import { Dispatch, SetStateAction, memo, useRef, useState } from 'react'
+import { LeftOutlined, RightOutlined, RedoOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { CSSProperties, Dispatch, SetStateAction, memo, useRef, useState } from 'react'
 import { CarouselRef } from 'antd/es/carousel'
 import Meta from 'antd/es/card/Meta'
+
+type DecorateGridProps = {
+  span?: number,
+  leftSpan?: number,
+  rightSpan?: number,
+  gutter: number,
+  children: JSX.Element,
+  rightAction?: JSX.Element,
+  leftAction?: JSX.Element,
+  style?: CSSProperties
+}
+const DecorateGrid = (props: DecorateGridProps) => {
+  let { leftSpan, rightSpan, span, gutter, rightAction, leftAction, children } = props
+  if (span) {
+    leftSpan = span
+    rightSpan = span
+  }
+  leftSpan = leftSpan ?? 0
+  rightSpan = rightSpan ?? 0
+  return <Row gutter={gutter} style={props.style}>
+    <Col span={leftSpan}>
+      {leftAction && leftAction}
+    </Col>
+    <Col span={24 - leftSpan - rightSpan}>
+      <Row gutter={gutter}>
+        {
+          children
+        }
+      </Row>
+    </Col>
+    <Col span={rightSpan}>
+      {rightAction && rightAction}
+    </Col>
+  </Row>
+}
 
 const categoryContent = () => {
   return <div>
@@ -48,7 +84,7 @@ const CarouselImage = () => {
       {
         recommend.map((r, id) =>
           // <div className={home.carousel} key={id}>
-          <div key={id} style={{ width: '100%'}}>
+          <div key={id} style={{ width: '100%' }}>
             <img src={r.url} alt={r.desc} style={{ width: '100%' }} />
           </div>
         )
@@ -133,32 +169,72 @@ const BookList = memo(() => {
     {category.map((c, id) =>
       <div key={id}>
         <div className={home.title}>{c.name}</div>
-        <Row gutter={12}>
+        {/* <Row gutter={12}>
           <Col span={2}></Col>
-          <Col span={20}>
-            <Row gutter={12}>
-              {
-                bookshelf.map((sc, id) =>
-                  <Col key={id} span={6} style={{padding: '30px'}}>
-                    <Card
-                      hoverable
-                      cover={<img alt={sc.name} src={sc.url} />}
-                    >
-                      <Meta title={sc.name} description={sc.desc} />
-                    </Card>
-                  </Col>
-                )}
-            </Row>
+          <Col span={20}> */}
+        <DecorateGrid span={2} gutter={12}>
+          <Row gutter={12}>
+            {
+              bookshelf.map((sc, id) =>
+                <Col key={id} span={6} style={{ padding: '30px' }}>
+                  <Card
+                    hoverable
+                    cover={<img alt={sc.name} src={sc.url} />}
+                  >
+                    <Meta title={sc.name} description={sc.desc} />
+                  </Card>
+                </Col>
+              )}
+            {/* </Row>
           </Col>
-          <Col span={2}></Col>
-        </Row>
+          <Col span={2}></Col> */}
+          </Row>
+        </DecorateGrid>
+
       </div>
     )}
   </div>
 })
 
-const News = ()=>{
-return <div></div>
+const NewsList = () => {
+  return <List
+    itemLayout="vertical"
+    size="large"
+    pagination={{
+      onChange: (page) => {
+        console.log(page);
+      },
+      pageSize: 3,
+    }}
+    dataSource={newslist}
+    footer={
+      <div>
+        <b>ant design</b> footer part
+      </div>
+    }
+    renderItem={(item) => (
+      <List.Item
+        key={item.title}
+        actions={[
+          <ClockCircleOutlined />
+        ]}
+        extra={
+          <img
+            width={150}
+            alt="logo"
+            src={item.image}
+          />
+        }
+      >
+        <List.Item.Meta
+          // avatar={<Avatar src={item.avatar} />}
+          title={<a href={item.href}>{item.title}</a>}
+          description={item.description}
+        />
+        {/* {item.content} */}
+      </List.Item>
+    )}
+  />
 }
 
 export default function Home() {
@@ -174,7 +250,19 @@ export default function Home() {
       </Popover>
       <Button type='link' onClick={() => { router.push('/contact') }}>联系我们</Button>
     </div>
-    <Row style={{ minWidth: '1100px' }} gutter={12}>
+    <DecorateGrid style={{ minWidth: '1100px' }} span={1} gutter={12} rightAction={
+      <ChangePicture setPictures={setPictures} />
+    }>
+      <Row gutter={12}>
+        <Col span={12} style={{ overflow: 'hidden' }}>
+          <CarouselImage />
+        </Col>
+        <Col span={12}>
+          <RandomPicture result={pictures} />
+        </Col>
+      </Row>
+    </DecorateGrid>
+    {/* <Row style={{ minWidth: '1100px' }} gutter={12}>
       <Col span={1}></Col>
       <Col span={22}>
         <Row gutter={12}>
@@ -189,9 +277,22 @@ export default function Home() {
       <Col span={1}>
         <ChangePicture setPictures={setPictures} />
       </Col>
-    </Row>
-    <Divider style={{padding: '20px'}}>我是分隔线</Divider>
+    </Row> */}
+    <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
     <BookList />
-    <News/>
+
+    <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
+    <DecorateGrid span={2} gutter={12} leftAction={<ChangePicture setPictures={setPictures} />}>
+      <Row gutter={12}>
+        <Col span={12}><RandomPicture result={pictures} /></Col>
+        <Col span={12}><NewsList /></Col>
+      </Row>
+    </DecorateGrid>
+    <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
+    <p>合作出版社</p>
+    <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
+    <p>关于我们</p>
+    <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
+    <p>联系我们</p>
   </div>
 }
