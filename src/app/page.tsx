@@ -9,7 +9,7 @@ import { recommend, randbooks } from '@/common/recommend'
 import { newslist } from '@/common/newslist'
 import home from './home.module.css'
 import { LeftOutlined, RightOutlined, RedoOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { CSSProperties, Dispatch, SetStateAction, memo, useRef, useState } from 'react'
+import { CSSProperties, Dispatch, SetStateAction, memo, useEffect, useRef, useState } from 'react'
 import { CarouselRef } from 'antd/es/carousel'
 import Meta from 'antd/es/card/Meta'
 
@@ -46,29 +46,6 @@ const DecorateGrid = (props: DecorateGridProps) => {
       {rightAction && rightAction}
     </Col>
   </Row>
-}
-
-const categoryContent = () => {
-  return <div>
-    {
-      category.map((c, id) =>
-        [
-          <div key={id}>
-            <Space direction='vertical'>
-              <Link href={'/category?c1=' + c.router}>{c.name}</Link>
-              <Space>
-                {c.subCategory.map((sc, id) =>
-                  <Link key={id} href={`/category?c1=${c.router}&c2=${sc.router}`}>{sc.name}</Link>
-                )}
-              </Space>
-            </Space>
-          </div>
-        ]
-      ).reduce((a, b) =>
-        [...a, <Divider key={'key' + a.length} type="vertical" />, ...b]
-      )
-    }
-  </div>
 }
 
 const CarouselImage = () => {
@@ -140,42 +117,39 @@ const ChangePicture = (props: {
   </Button>
 }
 const getFourCards = function <T>(books: T[]) {
-  //const books = [...randbooks]
+  const booksCopy = [...books]
   const result: T[] = []; // 存放结果的数组
+  // return books.slice(0, 4)
 
-  while (result.length < 4 && books.length > 0) {
-    const index = Math.floor(Math.random() * books.length); // 生成一个随机索引值
-    if (!result.includes(books[index])) { // 判断该数字是否已经在结果数组中
-      result.push(books[index]); // 将当前数字添加到结果数组中
-      books.splice(index, 1); // 移除原始数组中对应位置上的数字，确保后面不会再次被选择
+  while (result.length < 4 && booksCopy.length > 0) {
+    const index = Math.floor(Math.random() * booksCopy.length); // 生成一个随机索引值
+    if (!result.includes(booksCopy[index])) { // 判断该数字是否已经在结果数组中
+      result.push(booksCopy[index]); // 将当前数字添加到结果数组中
+      booksCopy.splice(index, 1); // 移除原始数组中对应位置上的数字，确保后面不会再次被选择
     }
   }
   return result
 }
 
 const BookList = memo(() => {
-  let booklist: {
-    name: string,
-    url: string
-    desc: string
-  }[] = []
-  category.map((c, id) =>
-    c.subCategory.map((b) =>
-      booklist = [...booklist, ...b.books]
-    )
-  )
-  const [bookshelf, setBookshelf] = useState(getFourCards([...booklist]))
+  const [bookshelf, setBookshelf] = useState<{ name: string, books: Picture[] }[]>([])
+  useEffect(() => {
+    setBookshelf(category.map(c => {
+      return {
+        name: c.name,
+        books: getFourCards(c.subCategory.reduce((a: Picture[], b) => [...a, ...b.books], []))
+      }
+    }))
+  }, [])
   return <div>
-    {category.map((c, id) =>
+    {
+    bookshelf.map((c, id) =>
       <div key={id}>
         <div className={home.title}>{c.name}</div>
-        {/* <Row gutter={12}>
-          <Col span={2}></Col>
-          <Col span={20}> */}
         <DecorateGrid span={2} gutter={12}>
           <Row gutter={12}>
             {
-              bookshelf.map((sc, id) =>
+              c.books.map((sc, id) =>
                 <Col key={id} span={6} style={{ padding: '30px' }}>
                   <Card
                     hoverable
@@ -185,12 +159,8 @@ const BookList = memo(() => {
                   </Card>
                 </Col>
               )}
-            {/* </Row>
-          </Col>
-          <Col span={2}></Col> */}
           </Row>
         </DecorateGrid>
-
       </div>
     )}
   </div>
@@ -240,16 +210,13 @@ const NewsList = () => {
 export default function Home() {
   const router = useRouter()
 
-  const [pictures, setPictures] = useState<Picture[]>(getFourCards([...randbooks]))
+  const [pictures, setPictures] = useState<Picture[]>([])
+
+  useEffect(() => {
+    setPictures(getFourCards(randbooks))
+  }, [])
 
   return <div>
-    <div>
-      <Popover content={categoryContent}>
-        <Button type='link' onClick={() => { router.push('/') }}>首页</Button>
-        <Button type='link' onClick={() => { router.push('/contact') }}>商品展示</Button>
-      </Popover>
-      <Button type='link' onClick={() => { router.push('/contact') }}>联系我们</Button>
-    </div>
     <DecorateGrid style={{ minWidth: '1100px' }} span={1} gutter={12} rightAction={
       <ChangePicture setPictures={setPictures} />
     }>
@@ -262,22 +229,6 @@ export default function Home() {
         </Col>
       </Row>
     </DecorateGrid>
-    {/* <Row style={{ minWidth: '1100px' }} gutter={12}>
-      <Col span={1}></Col>
-      <Col span={22}>
-        <Row gutter={12}>
-          <Col span={12} style={{ overflow: 'hidden' }}>
-            <CarouselImage />
-          </Col>
-          <Col span={12}>
-            <RandomPicture result={pictures} />
-          </Col>
-        </Row>
-      </Col>
-      <Col span={1}>
-        <ChangePicture setPictures={setPictures} />
-      </Col>
-    </Row> */}
     <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
     <BookList />
 
