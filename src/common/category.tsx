@@ -1,15 +1,19 @@
+export type subCategory = {
+    router: string,
+    name: string,
+    books: books[]
+}
+
+export type books = {
+    name: string,
+    url: string
+    desc: string
+}
+
 export const category: {
     router: string,
     name: string,
-    subCategory: {
-        router: string,
-        name: string,
-        books:{
-            name: string,
-            url: string
-            desc: string
-        }[]
-    }[]
+    subCategory: subCategory[]
 }[] = [
         {
             router: 'love',
@@ -18,7 +22,7 @@ export const category: {
                 {
                     router: 'long',
                     name: '长篇',
-                    books:[
+                    books: [
                         {
                             name: '呼啸山庄',
                             url: '/47767188.jpg',
@@ -54,9 +58,9 @@ export const category: {
                 {
                     router: 'short',
                     name: '短篇',
-                    books:[
+                    books: [
                         {
-                            name: '呼啸山庄',
+                            name: '段短短',
                             url: '/47767188.jpg',
                             desc: '123123'
                         },
@@ -96,7 +100,7 @@ export const category: {
                 {
                     router: 'kid',
                     name: '少年',
-                    books:[
+                    books: [
                         {
                             name: '呼啸山庄',
                             url: '/47767188.jpg',
@@ -132,7 +136,7 @@ export const category: {
                 {
                     router: 'teen',
                     name: '青年',
-                    books:[
+                    books: [
                         {
                             name: '呼啸山庄',
                             url: '/47767188.jpg',

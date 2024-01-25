@@ -41,9 +41,9 @@ const Menu = () => {
     <MenuItem pathName='/news' menuName='咨询' />
     <Popover content={categoryContent}>
     <Button
-      style={crtPathName == '/contact' ? { color: 'red' } : { color: 'black' }}
+      style={crtPathName == '/category' ? { color: 'red' } : { color: 'black' }}
       type='link'
-      onClick={() => { router.push('/contact') }}>
+      onClick={() => { router.push('/category') }}>
       商品展示</Button>      {/* <MenuItem pathName='/contact' menuName='商品展示' /> */}
     </Popover>
     <MenuItem pathName='/about' menuName='关于我们' />
