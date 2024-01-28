@@ -1,45 +1,46 @@
 'use client'
 
-import { books, category, subCategory } from "@/common/category"
+import { Books, category, SubCategory } from "@/common/category"
 import { Button, Card, Col, Pagination, Row } from "antd"
 import Meta from "antd/es/card/Meta"
 import { useRouter } from "next/navigation"
 import { Dispatch, SetStateAction, memo, useState } from "react"
+import DecorateGrid from "../components/grid"
 
 const Table = () => {
-  const [classA, setClassA] = useState<books[]>([])
+  const [classA, setClassA] = useState<Books[]>([])
   const [total, setTotal] = useState(0)
-  const [curPageBooks, setCurPageBooks] = useState<books[]>([])
-  const ClassAButton = memo((props:{
-    setCurPageBooks: Dispatch<SetStateAction<books[]>>,
-    setClassA: Dispatch<SetStateAction<books[]>>,
-    setTotal:  Dispatch<SetStateAction<number>>,
-    subCategory: subCategory[],
-    name: string
-  })=>{
-      const [books] = useState(props.subCategory.reduce((a:books[],b)=>[...a, ...b.books],[]))
-      return <Button type="link" onClick={() => {
-        props.setCurPageBooks(books.slice(0,8))
-        props.setClassA(books)
-        props.setTotal(books.length)
-      }}>{props.name}</Button>
-  })
-  const ClassBButton = memo((props:{
-    setCurPageBooks: Dispatch<SetStateAction<books[]>>,
-    setClassA: Dispatch<SetStateAction<books[]>>,
+  const [curPageBooks, setCurPageBooks] = useState<Books[]>([])
+  const ClassAButton = memo((props: {
+    setCurPageBooks: Dispatch<SetStateAction<Books[]>>,
+    setClassA: Dispatch<SetStateAction<Books[]>>,
     setTotal: Dispatch<SetStateAction<number>>,
-    books: books[],
+    subCategory: SubCategory[],
     name: string
-  })=> {
-    const[books] = useState(props.books)
-    return <Button type="link" onClick={()=>{
-      props.setCurPageBooks(books.slice(0,8))
+  }) => {
+    const [books] = useState(props.subCategory.reduce((a: Books[], b) => [...a, ...b.books], []))
+    return <Button type="link" onClick={() => {
+      props.setCurPageBooks(books.slice(0, 8))
+      props.setClassA(books)
+      props.setTotal(books.length)
+    }}>{props.name}</Button>
+  })
+  const ClassBButton = memo((props: {
+    setCurPageBooks: Dispatch<SetStateAction<Books[]>>,
+    setClassA: Dispatch<SetStateAction<Books[]>>,
+    setTotal: Dispatch<SetStateAction<number>>,
+    books: Books[],
+    name: string
+  }) => {
+    const [books] = useState(props.books)
+    return <Button type="link" onClick={() => {
+      props.setCurPageBooks(books.slice(0, 8))
       props.setClassA(props.books)
       props.setTotal(books.length)
     }}>{props.name}</Button>
   })
   const clickClass = (clazz: string) => {
-    let tempClass: books[] = []
+    let tempClass: Books[] = []
     //console.log(clazz)
     for (const c of category) {
       console.log(clazz, c.name)
@@ -63,15 +64,15 @@ const Table = () => {
     }
   }
 
-  const onChange = (page: number, pageSize: number)=>{
+  const onChange = (page: number, pageSize: number) => {
     console.log(page)
     console.log(pageSize)
-    setCurPageBooks(classA.slice((page-1)*pageSize, page*pageSize))
+    setCurPageBooks(classA.slice((page - 1) * pageSize, page * pageSize))
   }
 
   const router = useRouter()
 
-  const cardOnChange = (bookName: string) =>{
+  const cardOnChange = (bookName: string) => {
     router.push(`/book/${bookName}`)
   }
 
@@ -88,24 +89,20 @@ const Table = () => {
         )}
       </div>
     )}
-    <Row>
-      <Col span={2}></Col>
-      <Col span={20}>
-        <Row>
-          {curPageBooks.map((c, id) =>
-            <Col span={6} key={id}>
-              <Card
-                hoverable
-                cover={<img alt={c.name} src={c.url} />}
-                onClick={()=>{cardOnChange(c.name)}}>
-                <Meta title={c.name} description={c.desc} />
-              </Card>
-            </Col>
-          )}
-        </Row>
-      </Col>
-      <Col span={2}></Col>
-    </Row>
+    <DecorateGrid span={2} gutter={12}>
+      <Row>
+        {curPageBooks.map((c, id) =>
+          <Col span={6} key={id}>
+            <Card
+              hoverable
+              cover={<img alt={c.name} src={c.url} />}
+              onClick={() => { cardOnChange(c.name) }}>
+              <Meta title={c.name} description={c.desc} />
+            </Card>
+          </Col>
+        )}
+      </Row>
+    </DecorateGrid>
     <Pagination showQuickJumper defaultPageSize={8} defaultCurrent={1} total={total} onChange={onChange} />
   </div>
 }

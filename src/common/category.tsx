@@ -1,19 +1,23 @@
-export type subCategory = {
+export type SubCategory = {
     router: string,
     name: string,
-    books: books[]
+    books: Books[]
 }
 
-export type books = {
-    name: string,
-    url: string
-    desc: string
+export type Books = {
+    name: string,//书名
+    url: string,//封面图片url
+    desc: string,//简要描述
+    pictures: string[],//详情页面轮播图url
+    detail: string,//详细描述
+    price: string,//价格
+    long: string//长图url
 }
 
 export const category: {
     router: string,
     name: string,
-    subCategory: subCategory[]
+    subCategory: SubCategory[]
 }[] = [
         {
             router: 'love',
@@ -26,32 +30,74 @@ export const category: {
                         {
                             name: '大长篇',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '飘',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '喵喵喵',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '好耶',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: 'hello',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '111',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         }
                     ]
                 },
@@ -62,32 +108,74 @@ export const category: {
                         {
                             name: '段短短',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '飘',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '喵喵喵',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '好耶',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: 'hello',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '111',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         }
                     ]
                 }
@@ -104,32 +192,74 @@ export const category: {
                         {
                             name: '呼啸山庄',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '飘',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '喵喵喵',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '好耶',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: 'hello',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '111',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         }
                     ]
                 },
@@ -140,32 +270,74 @@ export const category: {
                         {
                             name: '呼啸山庄',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '飘',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '喵喵喵',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '好耶',
                             url: '/47767188.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: 'hello',
                             url: '/47767190.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         },
                         {
                             name: '111',
                             url: '/48130254.jpg',
-                            desc: '123123'
+                            desc: '123123',
+                            pictures: [
+                                '/47767188.jpg',
+                                '/47767190.jpg'
+                            ],
+                            detail: '这是一个超大超大超大的长篇',
+                            price: '$100',
+                            long: '/48258322.jpg'
                         }
                     ]
                 }
