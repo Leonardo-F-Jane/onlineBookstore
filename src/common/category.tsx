@@ -24,7 +24,7 @@ export const category: {
                     name: '长篇',
                     books: [
                         {
-                            name: '呼啸山庄',
+                            name: '大长篇',
                             url: '/47767188.jpg',
                             desc: '123123'
                         },

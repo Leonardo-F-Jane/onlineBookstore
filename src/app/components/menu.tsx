@@ -38,7 +38,7 @@ const Menu = () => {
   }
   return <div>
     <MenuItem pathName='/' menuName='首页' />
-    <MenuItem pathName='/news' menuName='咨询' />
+    <MenuItem pathName='/news' menuName='资讯' />
     <Popover content={categoryContent}>
     <Button
       style={crtPathName == '/category' ? { color: 'red' } : { color: 'black' }}

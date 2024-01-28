@@ -1,7 +1,7 @@
 
-const Book = ({params}:{params:{id:number}})=>{
+const Book = ({params}:{params:{id:string}})=>{
     
-    return <p>Post: {params.id}</p>
+    return <p>Post: {decodeURI(params.id)}</p>
 }
 
 export default Book
