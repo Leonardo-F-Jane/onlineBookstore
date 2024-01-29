@@ -1,0 +1,12 @@
+@keyframes carousel {
+    0% {
+        transform: translate(0px,0px);
+    }
+    100% {
+        transform: translate(-3200px,0px);
+    }
+}
+
+.animate {
+    animation: carousel 5s linear infinite
+}
