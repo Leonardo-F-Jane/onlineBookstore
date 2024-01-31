@@ -7,9 +7,16 @@ import { Books, category } from "@/common/category";
 import DecorateGrid from "@/app/components/grid";
 import { CaretRightOutlined, CaretLeftOutlined } from '@ant-design/icons'
 import buuk from './buuk.module.css'
-
+//import Swiper from "swiper";
+import 'swiper/swiper-bundle.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore  from 'swiper';
+import { Autoplay } from "swiper/modules";
+import { FreeMode, Navigation,Thumbs } from "swiper/modules";
 
 const Book = ({ params }: { params: { id: string } }) => {
+  //SwiperCore.use([Autoplay])
+  const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
   useEffect(
     () => {
@@ -43,6 +50,27 @@ const Book = ({ params }: { params: { id: string } }) => {
       }
     }, [])
 
+
+  // useEffect(() => {
+  //   // 配置swiper播放 配置项都写这里面
+  //   new Swiper('.swiper-container', {
+  //     loop: true,
+  //     autoplay: {
+  //       delay: 3000,
+  //       stopOnLastSlide: false,
+  //       disableOnInteraction: true,
+  //       },
+  //     pagination: {
+  //       el: '.swiper-pagination', // 分页器元素
+  //       clickable: true // 可点击切换
+  //     },
+  //     navigation: {
+  //       nextEl: '.swiper-button-next',
+  //       prevEl: '.swiper-button-prev',
+  //     }
+  //   })
+  // }, [])
+
   return <div>
     <Breadcrumb
       separator=">"
@@ -73,24 +101,39 @@ const Book = ({ params }: { params: { id: string } }) => {
       <Row style={{ width: '100%' }}>
         <Col span={12}>
           <Space style={{ width: '100%', justifyContent: 'center', position: 'relative' }}>
-            <div className={buuk.carousel} style={{ overflow: 'hidden' }}>
-              <div style={{ display: 'inline-flex', width: '400px', alignItems: 'center' }} className={buuk.animate}>
+            <div style={{ overflow: 'hidden' }}>
+              <Swiper
+              navigation={true}
+                modules={[FreeMode, Navigation,Thumbs]} thumbs={{swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null}}
+                style={{ display: 'inline-flex', width: '400px', alignItems: 'center' }} >
                 {picture?.map((p, id) =>
-                  <img key={id} src={p} width={400}></img>
+                  <SwiperSlide key={id}>
+                    <img src={p} width={400}></img>
+                  </SwiperSlide>
                 )}
-                <img src={picture?.at(0)} width={400}></img>
-              </div>
+                {/* <img src={picture?.at(0)} width={400}></img> */}
+              </Swiper>
             </div>
           </Space>
           <Space style={{ width: '100%', justifyContent: 'center', position: 'relative' }}>
             <CaretLeftOutlined style={{ fontSize: '50px', position: 'absolute', left: '50px', top: '10px' }} />
-            <Space style={{ width: '310px', overflow: 'hidden' }}>
-              {
-                book?.pictures.map((b, id) =>
-                  <img key={id} src={b} width={70}></img>
-                )
-              }
-            </Space>
+            {/* <Space style={{ width: '310px', overflow: 'hidden' }}> */}
+              <Swiper 
+                modules={[FreeMode, Navigation,Thumbs]}
+                watchSlidesProgress
+                slidesPerView={4}
+                freeMode={true}
+                onSwiper={setThumbsSwiper}
+                >
+                {
+                  book?.pictures.map((b, id) =>
+                    <SwiperSlide style={{width: '25%'}} key={id}>
+                      <img src={b} width={70}></img>
+                    </SwiperSlide>
+                  )
+                }
+              </Swiper>
+            {/* </Space> */}
             <CaretRightOutlined style={{ fontSize: '50px', position: 'absolute', right: '50px', top: '10px' }} />
           </Space>
         </Col>
