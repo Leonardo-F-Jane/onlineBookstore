@@ -10,12 +10,12 @@ import buuk from './buuk.module.css'
 //import Swiper from "swiper";
 import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore  from 'swiper';
+import SwiperCore from 'swiper';
 import { Autoplay } from "swiper/modules";
-import { FreeMode, Navigation,Thumbs } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 const Book = ({ params }: { params: { id: string } }) => {
-  //SwiperCore.use([Autoplay])
+  SwiperCore.use([Autoplay,Navigation])
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
   useEffect(
@@ -103,42 +103,44 @@ const Book = ({ params }: { params: { id: string } }) => {
           <Space style={{ width: '100%', justifyContent: 'center', position: 'relative' }}>
             <div style={{ overflow: 'hidden' }}>
               <Swiper
-              navigation={true}
-                modules={[FreeMode, Navigation,Thumbs]} thumbs={{swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null}}
+                autoplay
+                loop
+                navigation={{ prevEl: `.${buuk.prev}`, nextEl: `.${buuk.next}` }}
+                modules={[Thumbs]} thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                 style={{ display: 'inline-flex', width: '400px', alignItems: 'center' }} >
                 {picture?.map((p, id) =>
                   <SwiperSlide key={id}>
                     <img src={p} width={400}></img>
                   </SwiperSlide>
                 )}
-                {/* <img src={picture?.at(0)} width={400}></img> */}
               </Swiper>
             </div>
           </Space>
-          <Space style={{ width: '100%', justifyContent: 'center', position: 'relative' }}>
-            <CaretLeftOutlined style={{ fontSize: '50px', position: 'absolute', left: '50px', top: '10px' }} />
-            {/* <Space style={{ width: '310px', overflow: 'hidden' }}> */}
-              <Swiper 
-                modules={[FreeMode, Navigation,Thumbs]}
-                watchSlidesProgress
-                slidesPerView={4}
-                freeMode={true}
-                onSwiper={setThumbsSwiper}
-                >
-                {
-                  book?.pictures.map((b, id) =>
-                    <SwiperSlide style={{width: '25%'}} key={id}>
-                      <img src={b} width={70}></img>
-                    </SwiperSlide>
-                  )
-                }
-              </Swiper>
-            {/* </Space> */}
-            <CaretRightOutlined style={{ fontSize: '50px', position: 'absolute', right: '50px', top: '10px' }} />
+          <Space style={{ width: '100%', justifyContent: 'center' }}>
+            <Space style={{ width: '320px', position: 'relative' }}>
+            <CaretLeftOutlined className={buuk.prev}/>
+            <Swiper
+              modules={[Thumbs]}
+              watchSlidesProgress
+              slidesPerView={4}
+              freeMode={true}
+              onSwiper={setThumbsSwiper}
+              style={{ display: 'inline-flex', width: '320px', alignItems: 'center' }}
+            >
+              {
+                book?.pictures.map((b, id) =>
+                  <SwiperSlide style={{ width: '25%' }} key={id}>
+                    <img src={b} width={70}></img>
+                  </SwiperSlide>
+                )
+              }
+            </Swiper>
+            <CaretRightOutlined className={buuk.next}/>
+            </Space>
           </Space>
         </Col>
         <Col span={12}>
-          这是文本
+          这是文本这是文本这是文本这是文本这是文本这是文本这是文本
         </Col>
       </Row>
     </DecorateGrid>
