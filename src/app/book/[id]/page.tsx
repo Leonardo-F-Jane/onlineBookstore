@@ -1,6 +1,6 @@
 'use client'
 
-import { Breadcrumb, Col, Row, Space } from "antd"
+import { Breadcrumb, Card, Col, Row, Space } from "antd"
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Books, category } from "@/common/category";
@@ -15,7 +15,7 @@ import { Autoplay } from "swiper/modules";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 const Book = ({ params }: { params: { id: string } }) => {
-  SwiperCore.use([Autoplay,Navigation])
+  SwiperCore.use([Autoplay, Navigation])
   const [thumbsSwiper, setThumbsSwiper] = useState(null)
 
   useEffect(
@@ -96,7 +96,7 @@ const Book = ({ params }: { params: { id: string } }) => {
         },
       ]}
     />
-    <p>Post: {bookName}</p>
+    {/* <p>Post: {bookName}</p> */}
     <DecorateGrid span={2} gutter={12}>
       <Row style={{ width: '100%' }}>
         <Col span={12}>
@@ -118,32 +118,43 @@ const Book = ({ params }: { params: { id: string } }) => {
           </Space>
           <Space style={{ width: '100%', justifyContent: 'center' }}>
             <Space style={{ width: '320px', position: 'relative' }}>
-            <CaretLeftOutlined className={buuk.prev}/>
-            <Swiper
-              modules={[Thumbs]}
-              watchSlidesProgress
-              slidesPerView={4}
-              freeMode={true}
-              onSwiper={setThumbsSwiper}
-              style={{ display: 'inline-flex', width: '320px', alignItems: 'center' }}
-            >
-              {
-                book?.pictures.map((b, id) =>
-                  <SwiperSlide style={{ width: '25%' }} key={id}>
-                    <img src={b} width={70}></img>
-                  </SwiperSlide>
-                )
-              }
-            </Swiper>
-            <CaretRightOutlined className={buuk.next}/>
+              <CaretLeftOutlined className={buuk.prev} />
+              <Swiper
+                modules={[Thumbs]}
+                watchSlidesProgress
+                slidesPerView={4}
+                freeMode={true}
+                onSwiper={setThumbsSwiper}
+                style={{ display: 'inline-flex', width: '320px', alignItems: 'center' }}
+              >
+                {
+                  book?.pictures.map((b, id) =>
+                    <SwiperSlide style={{ width: '25%' }} key={id}>
+                      <img src={b} width={70}></img>
+                    </SwiperSlide>
+                  )
+                }
+              </Swiper>
+              <CaretRightOutlined className={buuk.next} />
             </Space>
           </Space>
         </Col>
         <Col span={12}>
-          这是文本这是文本这是文本这是文本这是文本这是文本这是文本
+          <h2>{bookName}</h2>
+          <p>{book?.detail}</p>
         </Col>
       </Row>
     </DecorateGrid>
+    <Row gutter={12}>
+      <Col span={2} />
+      <Col span={20}>
+        <Card title='产品详情' bordered={false} style={{ width: '100%', textAlign: 'center' }}>
+          {/* <div style={{textAlign: 'center'}}>产品详情</div> */}
+          <img style={{ width: '100%' }} src={book?.long}></img>
+        </Card>
+      </Col>
+      <Col span={2} />
+    </Row>
   </div>
 }
 

@@ -43,7 +43,7 @@ export const category: {
                             ],
                             detail: '这是一个超大超大超大的长篇',
                             price: '$100',
-                            long: '/48258322.jpg'
+                            long: '/47767303.jpg'
                         },
                         {
                             name: '飘',
