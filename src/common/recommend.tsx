@@ -43,3 +43,14 @@ export const randbooks = [
         desc: '123123'
     }
 ]
+
+export const recommendNews = [
+    '/47652719.jpg',
+    '/47156920.jpg',
+    '/48388153.jpg',
+    '/47156921.jpg',
+    '/47652719.jpg',
+    '/47156920.jpg',
+    '/48388153.jpg',
+    '/47156921.jpg'
+]

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { category } from '@/common/category'
-import { recommend, randbooks } from '@/common/recommend'
+import { recommend, randbooks, recommendNews } from '@/common/recommend'
 import { newslist } from '@/common/newslist'
 import home from './home.module.css'
 import { LeftOutlined, RightOutlined, RedoOutlined, ClockCircleOutlined } from '@ant-design/icons'
@@ -13,6 +13,11 @@ import { CSSProperties, Dispatch, SetStateAction, memo, useEffect, useRef, useSt
 import { CarouselRef } from 'antd/es/carousel'
 import Meta from 'antd/es/card/Meta'
 import DecorateGrid from './components/grid'
+import 'swiper/swiper-bundle.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore from 'swiper';
+import { Autoplay } from "swiper/modules";
+import { EffectCards } from 'swiper/modules';
 
 const CarouselImage = () => {
   const ref = useRef<CarouselRef>()
@@ -98,6 +103,10 @@ const getFourCards = function <T>(books: T[]) {
 }
 
 const BookList = memo(() => {
+  const router = useRouter()
+  const cardOnChange = (bookName: string) => {
+    router.push(`/book/${bookName}`)
+  }
   const [bookshelf, setBookshelf] = useState<{ name: string, books: Picture[] }[]>([])
   useEffect(() => {
     setBookshelf(category.map(c => {
@@ -109,28 +118,47 @@ const BookList = memo(() => {
   }, [])
   return <div>
     {
-    bookshelf.map((c, id) =>
-      <div key={id}>
-        <div className={home.title}>{c.name}</div>
-        <DecorateGrid span={2} gutter={12}>
-          <Row gutter={12}>
-            {
-              c.books.map((sc, id) =>
-                <Col key={id} span={6} style={{ padding: '30px' }}>
-                  <Card
-                    hoverable
-                    cover={<img alt={sc.name} src={sc.url} />}
-                  >
-                    <Meta title={sc.name} description={sc.desc} />
-                  </Card>
-                </Col>
-              )}
-          </Row>
-        </DecorateGrid>
-      </div>
-    )}
+      bookshelf.map((c, id) =>
+        <div key={id}>
+          <div className={home.title}>{c.name}</div>
+          <DecorateGrid span={2} gutter={12}>
+            <Row gutter={12}>
+              {
+                c.books.map((sc, id) =>
+                  <Col key={id} span={6} style={{ padding: '30px' }}>
+                    <Card
+                      hoverable
+                      onClick={() => { cardOnChange(sc.name) }}
+                      cover={<img alt={sc.name} src={sc.url} />}
+                    >
+                      <Meta title={sc.name} description={sc.desc} />
+                    </Card>
+                  </Col>
+                )}
+            </Row>
+          </DecorateGrid>
+        </div>
+      )}
   </div>
 })
+
+const EffectCarousel = () => {
+  SwiperCore.use([Autoplay])
+  return <div>
+    <Swiper
+      effect={'cards'}
+      grabCursor={true}
+      autoplay={true}
+      modules={[EffectCards]}
+      style={{width: '70%'}}>
+      {recommendNews.map((rn, id)=> 
+      <SwiperSlide key={id} style={{width: '100%'}}>
+        <img src={rn} width={'100%'}></img>
+      </SwiperSlide>
+      )}
+    </Swiper>
+  </div>
+}
 
 const NewsList = () => {
   return <List
@@ -201,7 +229,7 @@ export default function Home() {
     <Divider style={{ padding: '20px' }}>我是分隔线</Divider>
     <DecorateGrid span={2} gutter={12} leftAction={<ChangePicture setPictures={setPictures} />}>
       <Row gutter={12}>
-        <Col span={12}><RandomPicture result={pictures} /></Col>
+        <Col span={12}><EffectCarousel /></Col>
         <Col span={12}><NewsList /></Col>
       </Row>
     </DecorateGrid>
