@@ -1,9 +1,51 @@
-export const newslist = Array.from({ length: 23 }).map((_, i) => ({
-    href: 'https://ant.design',
-    title: `ant design part ${i}`,
-    image: `https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png`,
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  }));
+export const newslist = [
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  },
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  },
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  },
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  },
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  },
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  },
+  {
+    title: '标题',
+    image: '/47767188.jpg',
+    description: '描述',
+    content: '内容',
+    date: '2024-2-18'
+  }
+]

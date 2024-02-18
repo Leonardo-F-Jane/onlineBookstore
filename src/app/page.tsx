@@ -18,6 +18,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Autoplay } from "swiper/modules";
 import { EffectCards } from 'swiper/modules';
+import React from 'react'
 
 const CarouselImage = () => {
   const ref = useRef<CarouselRef>()
@@ -107,21 +108,44 @@ const BookList = memo(() => {
   const cardOnChange = (bookName: string) => {
     router.push(`/book/${bookName}`)
   }
-  const [bookshelf, setBookshelf] = useState<{ name: string, books: Picture[] }[]>([])
+  const [bookshelf, setBookshelf] = useState<{ name: string, books: Picture[], allBooks: Picture[] }[]>([])
   useEffect(() => {
     setBookshelf(category.map(c => {
       return {
         name: c.name,
-        books: getFourCards(c.subCategory.reduce((a: Picture[], b) => [...a, ...b.books], []))
+        // books: c.subCategory.reduce((a: Picture[], b) => [...a, ...b.books], [])
+        books: getFourCards(c.subCategory.reduce((a: Picture[], b) => [...a, ...b.books], [])),
+        allBooks: c.subCategory.reduce((a: Picture[], b) => [...a, ...b.books], [])
       }
     }))
   }, [])
+
+  const ChangeBooks = (name: string) => {
+    //const copyBookshelf: SetStateAction<{ name: string; books: Picture[]; allBooks: Picture[] }[]> = []
+    const copyBookshelf = bookshelf.map((c) => {
+      if (c.name == name) {
+        return ({ name: name, books: getFourCards(c.allBooks), allBooks: c.allBooks })
+      } else {
+        return (c)
+      }
+    })
+    setBookshelf(copyBookshelf)
+  }
+
   return <div>
     {
       bookshelf.map((c, id) =>
         <div key={id}>
           <div className={home.title}>{c.name}</div>
-          <DecorateGrid span={2} gutter={12}>
+          <DecorateGrid span={2} gutter={12} rightAction={
+            <Button style={{ height: 'fit-content', padding: 0 }}
+              onClick={() => { ChangeBooks(c.name) }}>
+              <div style={{ padding: 3, }}>
+                <RedoOutlined />
+                <div className={home.changePicture}>换一换</div>
+              </div>
+            </Button>
+          }>
             <Row gutter={12}>
               {
                 c.books.map((sc, id) =>
@@ -150,17 +174,30 @@ const EffectCarousel = () => {
       grabCursor={true}
       autoplay={true}
       modules={[EffectCards]}
-      style={{width: '70%'}}>
-      {recommendNews.map((rn, id)=> 
-      <SwiperSlide key={id} style={{width: '100%'}}>
-        <img src={rn} width={'100%'}></img>
-      </SwiperSlide>
+      style={{ width: '70%' }}>
+      {recommendNews.map((rn, id) =>
+        <SwiperSlide key={id} style={{ width: '100%' }}>
+          <img src={rn} width={'100%'}></img>
+        </SwiperSlide>
       )}
     </Swiper>
   </div>
 }
 
+const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+  <Space>
+    {React.createElement(icon)}
+    {text}
+  </Space>
+);
+
 const NewsList = () => {
+  const [displayNewslist, setDisplayNewslist] = useState<{ title: string; image: string; description: string; content: string; date: string; }[]>()
+  useEffect(() => {
+    const copyNewlist = [...newslist]
+    
+    setDisplayNewslist(copyNewlist.slice(0, 6))
+  }, [])
   return <List
     itemLayout="vertical"
     size="large"
@@ -170,17 +207,17 @@ const NewsList = () => {
       },
       pageSize: 3,
     }}
-    dataSource={newslist}
+    dataSource={displayNewslist}
     footer={
       <div>
-        <b>ant design</b> footer part
+        <b>更多资讯</b>
       </div>
     }
     renderItem={(item) => (
       <List.Item
         key={item.title}
         actions={[
-          <ClockCircleOutlined />
+          <IconText icon={ClockCircleOutlined} text={item.date} />
         ]}
         extra={
           <img
