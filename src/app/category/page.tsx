@@ -1,11 +1,12 @@
 'use client'
 
 import { Books, category, SubCategory } from "@/common/category"
-import { Button, Card, Col, Pagination, Row } from "antd"
+import { Button, Card, Col, FloatButton, Pagination, Row } from "antd"
 import Meta from "antd/es/card/Meta"
 import { useRouter } from "next/navigation"
 import { Dispatch, SetStateAction, memo, useState } from "react"
 import DecorateGrid from "../components/grid"
+import { CustomerServiceOutlined,CommentOutlined } from '@ant-design/icons'
 
 const Table = () => {
   const [classA, setClassA] = useState<Books[]>([])
@@ -77,6 +78,15 @@ const Table = () => {
   }
 
   return <div>
+    <FloatButton.Group
+      trigger="hover"
+      type="primary"
+      style={{ right: 94 }}
+      icon={<CustomerServiceOutlined />}
+    >
+      <FloatButton />
+      <FloatButton icon={<CommentOutlined />} />
+    </FloatButton.Group>
     {category.map((c, id) =>
       <div key={id}>
         <ClassAButton setTotal={setTotal} setClassA={setClassA} name={c.name} subCategory={c.subCategory} setCurPageBooks={setCurPageBooks}></ClassAButton>

@@ -195,9 +195,10 @@ const NewsList = () => {
   const [displayNewslist, setDisplayNewslist] = useState<{ title: string; image: string; description: string; content: string; date: string; }[]>()
   useEffect(() => {
     const copyNewlist = [...newslist]
-    
+
     setDisplayNewslist(copyNewlist.slice(0, 6))
   }, [])
+  const router = useRouter()
   return <List
     itemLayout="vertical"
     size="large"
@@ -210,7 +211,7 @@ const NewsList = () => {
     dataSource={displayNewslist}
     footer={
       <div>
-        <b>更多资讯</b>
+        <Button type='link' onClick={() => { router.push('/newslist') }}>更多资讯{'>>>'}</Button>
       </div>
     }
     renderItem={(item) => (
@@ -221,7 +222,7 @@ const NewsList = () => {
         ]}
         extra={
           <img
-            width={150}
+            width={90}
             alt="logo"
             src={item.image}
           />
@@ -229,7 +230,7 @@ const NewsList = () => {
       >
         <List.Item.Meta
           // avatar={<Avatar src={item.avatar} />}
-          title={<a href={item.href}>{item.title}</a>}
+          title={<a onClick={() => { router.push(`/news/${item.title}`) }}>{item.title}</a>}
           description={item.description}
         />
         {/* {item.content} */}
@@ -248,16 +249,14 @@ export default function Home() {
   }, [])
 
   return <div>
-    <DecorateGrid style={{ minWidth: '1100px' }} span={1} gutter={12} rightAction={
-      <ChangePicture setPictures={setPictures} />
-    }>
+    <DecorateGrid style={{ minWidth: '1100px' }} span={1} gutter={12}>
       <Row gutter={12}>
-        <Col span={12} style={{ overflow: 'hidden' }}>
+        <Col span={24} style={{ overflow: 'hidden' }}>
           <CarouselImage />
         </Col>
-        <Col span={12}>
-          <RandomPicture result={pictures} />
-        </Col>
+        {/* <Col span={12}> */}
+          {/* <RandomPicture result={pictures} /> */}
+        {/* </Col> */}
       </Row>
     </DecorateGrid>
     <Divider style={{ padding: '20px' }}>我是分隔线</Divider>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { LeftOutlined, RightOutlined, RedoOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import React from "react";
 import { useRouter } from "next/navigation"
+import DecorateGrid from "../components/grid";
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
   <Space>
@@ -17,17 +18,11 @@ const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
 const NewsList = () => {
   const router = useRouter();
 
-  const PushRouter = (title: string) => {
-    router.push(`/news/${title}`)
-  }
   return <List
     itemLayout="vertical"
     size="large"
     pagination={{
-      onChange: (page) => {
-        console.log(page);
-      },
-      pageSize: 3,
+      pageSize: 5,
     }}
     dataSource={newslist}
     renderItem={(item) => (
@@ -46,7 +41,7 @@ const NewsList = () => {
       >
         <List.Item.Meta
           // avatar={<Avatar src={item.avatar} />}
-          title={<a onClick={() => { PushRouter(item.title) }}>{item.title}</a>}
+          title={<a onClick={() => { router.push(`/news/${item.title}`) }}>{item.title}</a>}
           description={item.description}
         />
         {/* {item.content} */}
@@ -56,9 +51,11 @@ const NewsList = () => {
 }
 
 const news = () => {
-  return <div>
+  return <DecorateGrid style={{ minWidth: '1100px' }} span={2} gutter={12}>
+    <div style={{width:'100%'}}>
     <NewsList />
-  </div>
+    </div>
+  </DecorateGrid>
 }
 
 export default news
